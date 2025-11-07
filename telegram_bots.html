@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل بوتات تيليجرام المتجاوب</title>
+    
+    <link rel="icon" href="dd.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* التنسيقات الأساسية */
+        body {
+            font-family: 'Droid Arabic Kufi', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            text-align: right;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 95%; /* زيادة عرض الحاوية قليلاً على الشاشات الكبيرة */
+            margin: 20px auto; /* تقليل الهامش العلوي قليلاً */
+            padding: 25px; /* تقليل البادينغ قليلاً */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+        }
+
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 25px; /* تقليل الهامش */
+            font-size: 2.2em; /* تقليل حجم الخط قليلاً */
+            font-weight: 800;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 60px; /* تصغير الخط السفلي */
+            height: 3px;
+            background-color: #0088cc;
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1em; /* تقليل حجم الخط قليلاً */
+            padding: 0 5px;
+        }
+
+        /* شريط الفلاتر */
+        .tools-bar {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* تنسيق أزرار الفلاتر */
+        .filters {
+            display: flex;
+            flex-wrap: wrap; /* مهم جداً لتجاوب الأزرار */
+            gap: 8px; /* تقليل المسافة بين الأزرار */
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background-color: #e9ecef;
+            color: #495057;
+            border: none;
+            padding: 8px 15px; /* تصغير حجم البادينغ */
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: 600;
+            flex-grow: 1; /* السماح للأزرار بالتوسع */
+            min-width: fit-content; /* منع الأزرار من الانضغاط أكثر من اللازم */
+        }
+
+        .filter-btn.active {
+            background-color: #0088cc;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3);
+        }
+
+        /* تنسيق بطاقة البوت */
+        .bot-card {
+            background-color: #f7f9fc;
+            border: 1px solid #e0e6ed;
+            border-left: 5px solid #0088cc;
+            border-radius: 10px;
+            padding: 15px; /* تصغير البادينغ */
+            margin-bottom: 20px; /* تقليل الهامش */
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bot-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.2);
+            transform: translateY(-3px);
+            background-color: #eaf6ff;
+        }
+
+        .bot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap; /* السماح للعناصر بالنزول إلى سطر جديد */
+        }
+
+        .bot-info {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* تقليل الفراغ */
+        }
+
+        .bot-icon {
+            font-size: 1.8em; /* تصغير الأيقونة */
+            color: #0088cc;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .bot-name {
+            font-size: 1.5em; /* تصغير حجم اسم البوت */
+            font-weight: 700;
+            color: #0088cc;
+            line-height: 1.2;
+        }
+        
+        .rating {
+            font-size: 1em;
+            color: gold;
+        }
+
+        .bot-username {
+            font-size: 0.9em; /* تصغير اسم المستخدم */
+            color: #555;
+            background-color: #e9eef2;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-family: 'Consolas', monospace;
+            font-weight: 600;
+            margin-top: 5px; /* إضافة مسافة بين الاسم واليوزر نيم في حالة الهواتف */
+        }
+
+        /* معلومات البوت المخفية */
+        .bot-details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #c0d8e8;
+            display: none;
+        }
+
+        .bot-details p {
+            font-size: 0.95em;
+            margin: 6px 0;
+            color: #34495e;
+        }
+        
+        /* زر الدخول للبوت */
+        .enter-button {
+            display: block; /* جعله يأخذ كامل العرض على الهواتف */
+            text-align: center;
+            background-color: #0088cc;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 136, 204, 0.4);
+        }
+        
+        /* تذييل الصفحة */
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 15px 0;
+            font-size: 0.8em;
+            background-color: #f0f4f8;
+            border-top: 1px solid #e0e6ed;
+            width: 100%;
+        }
+
+        /* ============================================== */
+        /* استعلامات الوسائط (Media Queries) للتجاوب */
+        /* يتم تطبيق هذه القواعد فقط على الشاشات الأصغر من 600 بكسل */
+        /* ============================================== */
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 0 auto;
+                padding: 15px;
+                border-radius: 0;
+                box-shadow: none; /* إزالة الظل في وضع الهاتف لإطلالة أبسط */
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .intro-text {
+                font-size: 0.9em;
+            }
+
+            .bot-header {
+                flex-direction: column; /* ترتيب العناصر عمودياً */
+                align-items: flex-start; /* محاذاة العناصر إلى اليمين (في اللغة العربية) */
+                gap: 5px;
+            }
+            
+            .bot-info {
+                width: 100%;
+                gap: 10px;
+            }
+
+            .bot-name {
+                font-size: 1.3em;
+            }
+            
+            .bot-username {
+                margin-top: 5px;
+                align-self: flex-end; /* لاسم المستخدم لكي يظهر في الأسفل على اليمين */
+                width: fit-content;
+            }
+            
+            .enter-button {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .filters {
+                flex-direction: row; 
+            }
+            
+            .filter-btn {
+                flex-basis: 45%; /* جعل الأزرار تأخذ تقريباً نصف العرض في السطر الواحد */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚀 دليل بوتات تيليجرام المتجاوب</h1>
+        <p class="intro-text">
+            اكتشف أفضل بوتات تيليجرام مصنفة حسب وظيفتها. استخدم أزرار التصنيف أدناه للعثور على البوت المثالي. <br>
+            **اضغط على أي بطاقة لعرض التفاصيل وزر الدخول المباشر.**
+        </p>
+
+        <div class="tools-bar">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all" onclick="filterBots('all', this)">الكل</button>
+                <button class="filter-btn" data-filter="video" onclick="filterBots('video', this)">تحميل الفيديوهات</button>
+                <button class="filter-btn" data-filter="music" onclick="filterBots('music', this)">الموسيقى والوسائط</button>
+                <button class="filter-btn" data-filter="ai" onclick="filterBots('ai', this)">الذكاء الاصطناعي</button>
+                <button class="filter-btn" data-filter="utility" onclick="filterBots('utility', this)">خدمات عامة</button>
+            </div>
+        </div>
+
+        <div id="bots-list">
+
+            <div class="bot-card bot-item video" onclick="toggleDetails('bot1')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-video bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت تحميل الكل</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@download_it_bot</span>
+                </div>
+                <div class="bot-details" id="bot1">
+                    <p><strong>الوظيفة:</strong> متخصص في التحميل من **فيسبوك، إنستجرام، وتويتر**. يدعم مجموعة واسعة من الروابط.</p>
+                    <p><strong>الميزة:</strong> يعتبر الأفضل للتحميل من عدة منصات اجتماعية بسرعة وسهولة.</p>
+                    <a href="https://t.me/download_it_bot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+
+            <div class="bot-card bot-item video" onclick="toggleDetails('bot2')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-download bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت SaveOFF</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@SaveOFFbot</span>
+                </div>
+                <div class="bot-details" id="bot2">
+                    <p><strong>الوظيفة:</strong> بوت شامل ويدعم اللغة العربية. يتيح تحميل الفيديوهات من منصات متعددة مثل **تيك توك ويوتيوب**.</p>
+                    <p><strong>الميزة:</strong> موثوق به، ويوفر خيارات متعددة لجودة التحميل، ويعد خياراً جيداً للمستخدمين العرب.</p>
+                    <a href="https://t.me/SaveOFFbot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+            
+            <div class="bot-card bot-item music video" onclick="toggleDetails('bot6')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-music bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت YT Downloader</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@Yt_Downloader_Bot</span>
+                </div>
+                <div class="bot-details" id="bot6">
+                    <p><strong>الوظيفة:</strong> يسمح بتنزيل مقاطع الفيديو من يوتيوب، و**تحويلها إلى ملفات MP3** بجودة عالية.</p>
+                    <p><strong>الميزة:</strong> مثالي لتحويل فيديوهات يوتيوب الموسيقية إلى صيغة صوتية قابلة للتشغيل.</p>
+                    <a href="https://t.me/Yt_Downloader_Bot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+
+            <div class="bot-card bot-item ai" onclick="toggleDetails('bot8')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-robot bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت Plasma AI</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@Plasma_AI_Bot</span>
+                </div>
+                <div class="bot-details" id="bot8">
+                    <p><strong>الوظيفة:</strong> يجمع بين قوة **ChatGPT 4 و DALL·E 2 و Midjourney** لتوليد صور فنية من وصف نصي ومحادثة ذكية.</p>
+                    <p><strong>الميزة:</strong> محرك شامل لإنشاء الصور والمحتوى النصي بواسطة الذكاء الاصطناعي.</p>
+                    <a href="https://t.me/Plasma_AI_Bot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+
+            <div class="bot-card bot-item utility" onclick="toggleDetails('bot9')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-image bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت Photo Enhancer</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@PhotoEnhancerBot</span>
+                </div>
+                <div class="bot-details" id="bot9">
+                    <p><strong>الوظيفة:</strong> متخصص في **تحسين جودة الصور** الضبابية أو القديمة وزيادة وضوحها باستخدام الذكاء الاصطناعي.</p>
+                    <p><strong>الميزة:</strong> أداة قوية لاستعادة وتوضيح الصور بدقة عالية جداً.</p>
+                    <a href="https://t.me/PhotoEnhancerBot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+            
+             <div class="bot-card bot-item utility video" onclick="toggleDetails('bot10')">
+                <div class="bot-header">
+                    <div class="bot-info">
+                        <i class="fas fa-scissors bot-icon"></i>
+                        <div>
+                            <span class="bot-name">بوت Video Converter</span>
+                            <div class="rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="bot-username">@VideoConverterBot</span>
+                </div>
+                <div class="bot-details" id="bot10">
+                    <p><strong>الوظيفة:</strong> تحويل الفيديوهات إلى صيغ مختلفة (مثل MP4 إلى GIF) و**تقطيع الفيديوهات** الطويلة وتعديلها.</p>
+                    <p><strong>الميزة:</strong> مفيد جداً للمونتاج السريع وتعديل أحجام الملفات مباشرة على تيليجرام.</p>
+                    <a href="https://t.me/VideoConverterBot" target="_blank" class="enter-button">🔗 الدخول إلى البوت الآن</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2023 دليل بوتات تيليجرام. تم التطوير بواسطة <span style="color: #0088cc; font-weight: bold;">BRAHIM</span> ❤️</p>
+    </footer>
+
+    <script>
+        // دالة عرض/إخفاء تفاصيل البوت
+        function toggleDetails(botId) {
+            const botElement = document.getElementById(botId);
+            if (!botElement) return;
+
+            const card = botElement.closest('.bot-card');
+            
+            // إغلاق كل التفاصيل الأخرى
+            document.querySelectorAll('.bot-details').forEach(detail => {
+                if (detail.id !== botId) {
+                    detail.style.display = 'none';
+                    detail.closest('.bot-card').classList.remove('active');
+                }
+            });
+
+            // فتح أو إغلاق التفاصيل المطلوبة
+            if (botElement.style.display === 'block') {
+                botElement.style.display = 'none';
+                card.classList.remove('active');
+            } else {
+                botElement.style.display = 'block';
+                card.classList.add('active');
+            }
+        }
+
+        // دالة تصفية البوتات بناءً على الفلاتر
+        function filterBots(filter, buttonElement) {
+            const botItems = document.querySelectorAll('.bot-item');
+            
+            // تحديث حالة الأزرار
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+            
+            botItems.forEach(item => {
+                const matchesFilter = (filter === 'all' || item.classList.contains(filter));
+
+                // الإظهار والإخفاء
+                if (matchesFilter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                    // إخفاء التفاصيل عند إخفاء البطاقة
+                    item.querySelector('.bot-details').style.display = 'none';
+                    item.classList.remove('active');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
